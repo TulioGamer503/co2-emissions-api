@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador REST para gestionar análisis sectoriales de emisiones.
+ * Expone endpoints CRUD, consultas por sector, fechas y generación automática.
+ */
 @RestController
 @RequestMapping("/api/sector-analysis")
 @Tag(name = "Análisis Sectorial", description = "API para gestionar análisis sectoriales de emisiones")
@@ -21,11 +25,17 @@ public class SectorAnalysisController {
 
     private final SectorAnalysisService sectorAnalysisService;
 
+    /**
+     * Constructor con inyección del servicio de análisis sectorial.
+     */
     @Autowired
     public SectorAnalysisController(SectorAnalysisService sectorAnalysisService) {
         this.sectorAnalysisService = sectorAnalysisService;
     }
 
+    /**
+     * Obtener todos los análisis sectoriales.
+     */
     @GetMapping
     @Operation(summary = "Obtener todos los análisis sectoriales")
     public ResponseEntity<List<SectorAnalysis>> getAllAnalyses() {
@@ -33,6 +43,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Obtener un análisis sectorial por ID.
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Obtener análisis sectorial por ID")
     public ResponseEntity<SectorAnalysis> getAnalysisById(@PathVariable Long id) {
@@ -40,6 +53,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analysis);
     }
 
+    /**
+     * Crear un nuevo análisis sectorial.
+     */
     @PostMapping
     @Operation(summary = "Crear nuevo análisis sectorial")
     public ResponseEntity<SectorAnalysis> createAnalysis(@Valid @RequestBody SectorAnalysis analysis) {
@@ -47,6 +63,9 @@ public class SectorAnalysisController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAnalysis);
     }
 
+    /**
+     * Actualizar un análisis sectorial existente por ID.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar análisis sectorial existente")
     public ResponseEntity<SectorAnalysis> updateAnalysis(@PathVariable Long id,
@@ -55,6 +74,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(updatedAnalysis);
     }
 
+    /**
+     * Eliminar un análisis sectorial por ID.
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar análisis sectorial")
     public ResponseEntity<Void> deleteAnalysis(@PathVariable Long id) {
@@ -62,6 +84,9 @@ public class SectorAnalysisController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Obtener análisis sectoriales filtrados por sector.
+     */
     @GetMapping("/sector/{sector}")
     @Operation(summary = "Obtener análisis sectoriales por sector")
     public ResponseEntity<List<SectorAnalysis>> getAnalysesBySector(@PathVariable String sector) {
@@ -69,6 +94,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Obtener análisis sectoriales en un rango de fechas.
+     */
     @GetMapping("/date-range")
     @Operation(summary = "Obtener análisis sectoriales por rango de fechas")
     public ResponseEntity<List<SectorAnalysis>> getAnalysesByDateRange(
@@ -78,6 +106,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Obtener análisis sectoriales filtrados por sector y rango de fechas.
+     */
     @GetMapping("/sector-date-range")
     @Operation(summary = "Obtener análisis sectoriales por sector y rango de fechas")
     public ResponseEntity<List<SectorAnalysis>> getAnalysesBySectorAndDateRange(
@@ -88,6 +119,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Obtener análisis sectoriales con un porcentaje mínimo de reducción.
+     */
     @GetMapping("/min-reduction/{minPercentage}")
     @Operation(summary = "Obtener análisis sectoriales con porcentaje mínimo de reducción")
     public ResponseEntity<List<SectorAnalysis>> getAnalysesByMinReduction(@PathVariable Double minPercentage) {
@@ -95,6 +129,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Obtener análisis sectoriales con un nivel mínimo de restricción.
+     */
     @GetMapping("/min-restriction/{minLevel}")
     @Operation(summary = "Obtener análisis sectoriales con nivel mínimo de restricción")
     public ResponseEntity<List<SectorAnalysis>> getAnalysesByMinRestriction(@PathVariable Double minLevel) {
@@ -102,6 +139,9 @@ public class SectorAnalysisController {
         return ResponseEntity.ok(analyses);
     }
 
+    /**
+     * Generar automáticamente un análisis sectorial para un sector en un rango de fechas.
+     */
     @PostMapping("/generate")
     @Operation(summary = "Generar análisis automático para un sector y período")
     public ResponseEntity<SectorAnalysis> generateAnalysis(

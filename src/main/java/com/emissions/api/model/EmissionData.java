@@ -4,10 +4,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * Entidad JPA que representa un registro de datos de emisiones de CO₂.
+ * Incluye validaciones y mapeos de columnas para persistencia en la tabla emission_data.
+ */
 @Entity
 @Table(name = "emission_data")
 public class EmissionData {
 
+    /**
+     * Campos de la entidad con validaciones y mapeo a columnas.
+     * - measurementDate: obligatorio
+     * - sector: obligatorio (no vacío)
+     * - co2Emissions: ≥ 0
+     * - restrictionLevel: entero en [0, 5]
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +44,8 @@ public class EmissionData {
     @Column(name = "data_source")
     private String dataSource;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con parámetros para inicialización de la entidad. */
     public EmissionData() {}
 
     public EmissionData(LocalDate measurementDate, String sector, Double co2Emissions,
@@ -45,7 +57,8 @@ public class EmissionData {
         this.dataSource = dataSource;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Accesores y mutadores estándar requeridos por JPA y para la capa de servicio. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

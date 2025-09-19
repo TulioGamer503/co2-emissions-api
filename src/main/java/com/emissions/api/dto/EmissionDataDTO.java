@@ -3,8 +3,19 @@ package com.emissions.api.dto;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * DTO para transferir datos de emisiones de CO₂ entre capas.
+ * Incluye validaciones básicas para fecha, sector, emisiones y nivel de restricción.
+ */
 public class EmissionDataDTO {
 
+    /**
+     * Campos del DTO con validaciones de Bean Validation.
+     * - measurementDate: obligatorio
+     * - sector: obligatorio (no vacío)
+     * - co2Emissions: número ≥ 0
+     * - restrictionLevel: entero en [0, 5]
+     */
     private Long id;
 
     @NotNull(message = "La fecha es obligatoria")
@@ -23,7 +34,8 @@ public class EmissionDataDTO {
 
     private String dataSource;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con argumentos para facilitar el mapeo y testeo. */
     public EmissionDataDTO() {}
 
     public EmissionDataDTO(Long id, LocalDate measurementDate, String sector, Double co2Emissions,
@@ -36,7 +48,8 @@ public class EmissionDataDTO {
         this.dataSource = dataSource;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Accesores y mutadores estándar para serialización/deserialización y mapeo. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

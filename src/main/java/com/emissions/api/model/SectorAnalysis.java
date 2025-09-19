@@ -4,10 +4,23 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * Entidad JPA que representa un análisis sectorial de emisiones.
+ * Contiene datos sobre emisiones promedio, reducción, nivel de restricción
+ * y observaciones adicionales para cada sector y fecha de análisis.
+ */
 @Entity
 @Table(name = "sector_analysis")
 public class SectorAnalysis {
 
+    /**
+     * Campos de la entidad con validaciones y mapeo a columnas.
+     * - sector: obligatorio (no vacío)
+     * - analysisDate: obligatoria
+     * - averageEmissions: ≥ 0
+     * - reductionPercentage: obligatorio
+     * - averageRestrictionLevel: valor en [0, 5]
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +50,8 @@ public class SectorAnalysis {
     @Column(columnDefinition = "TEXT")
     private String observations;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con parámetros para inicializar la entidad. */
     public SectorAnalysis() {}
 
     public SectorAnalysis(String sector, LocalDate analysisDate, Double averageEmissions,
@@ -50,7 +64,8 @@ public class SectorAnalysis {
         this.observations = observations;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Accesores y mutadores estándar requeridos por JPA y para la capa de servicio. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

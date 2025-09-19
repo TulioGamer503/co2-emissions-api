@@ -15,6 +15,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controlador REST para gestionar los datos de emisiones de CO₂.
+ *
+ * Expone endpoints CRUD y consultas personalizadas como búsquedas
+ * por sector, fechas, niveles de restricción, promedios y reducciones.
+ */
 @RestController
 @RequestMapping("/api/emissions")
 @Tag(name = "Datos de Emisiones", description = "API para gestionar datos de emisiones de CO₂")
@@ -22,11 +28,17 @@ public class EmissionDataController {
 
     private final EmissionDataService emissionDataService;
 
+    /**
+     * Constructor que inyecta el servicio de emisiones.
+     */
     @Autowired
     public EmissionDataController(EmissionDataService emissionDataService) {
         this.emissionDataService = emissionDataService;
     }
 
+    /**
+     * Obtener todos los registros de emisiones.
+     */
     @GetMapping
     @Operation(summary = "Obtener todos los datos de emisiones")
     public ResponseEntity<List<EmissionData>> getAllEmissions() {
@@ -34,6 +46,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener un registro de emisiones por ID.
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Obtener datos de emisión por ID")
     public ResponseEntity<EmissionData> getEmissionById(@PathVariable Long id) {
@@ -41,6 +56,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissionData);
     }
 
+    /**
+     * Crear un nuevo registro de emisiones.
+     */
     @PostMapping
     @Operation(summary = "Crear nuevos datos de emisión")
     public ResponseEntity<EmissionData> createEmission(@Valid @RequestBody EmissionData emissionData) {
@@ -48,6 +66,9 @@ public class EmissionDataController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmission);
     }
 
+    /**
+     * Actualizar un registro de emisiones existente por ID.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar datos de emisión existentes")
     public ResponseEntity<EmissionData> updateEmission(@PathVariable Long id,
@@ -56,6 +77,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(updatedEmission);
     }
 
+    /**
+     * Eliminar un registro de emisiones por ID.
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar datos de emisión")
     public ResponseEntity<Void> deleteEmission(@PathVariable Long id) {
@@ -63,6 +87,9 @@ public class EmissionDataController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Obtener emisiones filtradas por sector.
+     */
     @GetMapping("/sector/{sector}")
     @Operation(summary = "Obtener datos de emisión por sector")
     public ResponseEntity<List<EmissionData>> getEmissionsBySector(@PathVariable String sector) {
@@ -70,6 +97,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener emisiones en un rango de fechas.
+     */
     @GetMapping("/date-range")
     @Operation(summary = "Obtener datos de emisión por rango de fechas")
     public ResponseEntity<List<EmissionData>> getEmissionsByDateRange(
@@ -79,6 +109,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener emisiones filtradas por sector y rango de fechas.
+     */
     @GetMapping("/sector-date-range")
     @Operation(summary = "Obtener datos de emisión por sector y rango de fechas")
     public ResponseEntity<List<EmissionData>> getEmissionsBySectorAndDateRange(
@@ -89,6 +122,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener emisiones filtradas por nivel de restricción.
+     */
     @GetMapping("/restriction-level/{level}")
     @Operation(summary = "Obtener datos de emisión por nivel de restricción")
     public ResponseEntity<List<EmissionData>> getEmissionsByRestrictionLevel(@PathVariable Integer level) {
@@ -96,6 +132,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener emisiones de un año específico.
+     */
     @GetMapping("/year/{year}")
     @Operation(summary = "Obtener datos de emisión por año")
     public ResponseEntity<List<EmissionData>> getEmissionsByYear(@PathVariable int year) {
@@ -103,6 +142,9 @@ public class EmissionDataController {
         return ResponseEntity.ok(emissions);
     }
 
+    /**
+     * Obtener promedios de emisiones por sector en un rango de fechas.
+     */
     @GetMapping("/average-by-sector")
     @Operation(summary = "Obtener promedios de emisiones por sector en un rango de fechas")
     public ResponseEntity<Map<String, Double>> getAverageEmissionsBySector(
@@ -112,6 +154,10 @@ public class EmissionDataController {
         return ResponseEntity.ok(averages);
     }
 
+    /**
+     * Calcular porcentaje de reducción de emisiones por sector
+     * comparando periodos de pandemia y línea base.
+     */
     @GetMapping("/reduction-percentage")
     @Operation(summary = "Calcular porcentaje de reducción de emisiones por sector")
     public ResponseEntity<Map<String, Double>> getReductionPercentage(
