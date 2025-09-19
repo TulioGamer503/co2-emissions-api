@@ -3,8 +3,21 @@ package com.emissions.api.dto;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * DTO para transferir datos de análisis sectorial.
+ * Incluye validaciones para sector, fecha de análisis, emisiones,
+ * porcentaje de reducción y nivel de restricción promedio.
+ */
 public class SectorAnalysisDTO {
 
+    /**
+     * Campos del DTO con validaciones de Bean Validation.
+     * - sector: obligatorio (no vacío)
+     * - analysisDate: obligatoria
+     * - averageEmissions: ≥ 0
+     * - reductionPercentage: obligatorio
+     * - averageRestrictionLevel: valor en [0, 5]
+     */
     private Long id;
 
     @NotBlank(message = "El sector es obligatorio")
@@ -26,7 +39,8 @@ public class SectorAnalysisDTO {
 
     private String observations;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con parámetros para inicializar el objeto. */
     public SectorAnalysisDTO() {}
 
     public SectorAnalysisDTO(Long id, String sector, LocalDate analysisDate, Double averageEmissions,
@@ -40,7 +54,8 @@ public class SectorAnalysisDTO {
         this.observations = observations;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Métodos de acceso para serialización, deserialización y manipulación del DTO. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

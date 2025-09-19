@@ -22,8 +22,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-
 @SpringBootTest
+/**
+ * Pruebas unitarias para EmissionDataServiceImpl usando Mockito.
+ * Cubre operaciones CRUD: listar, buscar por ID, guardar, actualizar y eliminar.
+ */
 class Co2EmissionsApiApplicationTests {
     @Mock
     private EmissionDataRepository emissionDataRepository;
@@ -33,6 +36,9 @@ class Co2EmissionsApiApplicationTests {
 
     private EmissionData emissionData;
 
+    /**
+     * Datos de prueba comunes para los casos: entidad base con ID asignado.
+     */
     @BeforeEach
     void setUp() {
         emissionData = new EmissionData(
@@ -45,6 +51,10 @@ class Co2EmissionsApiApplicationTests {
         emissionData.setId(1L);
     }
 
+    /**
+     * Debe retornar la lista completa desde el repositorio.
+     * Verifica tamaño y que se llame findAll() una vez.
+     */
     @Test
     void testFindAll() {
         // Given
@@ -59,6 +69,10 @@ class Co2EmissionsApiApplicationTests {
         verify(emissionDataRepository, times(1)).findAll();
     }
 
+    /**
+     * Debe recuperar una entidad por ID y devolverla con sus datos.
+     * Verifica sector y llamada a findById().
+     */
     @Test
     void testFindById() {
         // Given
@@ -73,6 +87,10 @@ class Co2EmissionsApiApplicationTests {
         verify(emissionDataRepository, times(1)).findById(1L);
     }
 
+    /**
+     * Debe persistir una nueva entidad y retornarla con su ID.
+     * Verifica llamada a save() y contenido básico.
+     */
     @Test
     void testSave() {
         // Given
@@ -87,6 +105,10 @@ class Co2EmissionsApiApplicationTests {
         verify(emissionDataRepository, times(1)).save(emissionData);
     }
 
+    /**
+     * Debe actualizar campos de la entidad existente y devolver el resultado.
+     * Verifica cambios de sector y emisiones, y llamadas a findById() y save().
+     */
     @Test
     void testUpdate() {
         // Given
@@ -112,6 +134,10 @@ class Co2EmissionsApiApplicationTests {
         verify(emissionDataRepository, times(1)).save(any(EmissionData.class));
     }
 
+    /**
+     * Debe eliminar una entidad existente sin errores.
+     * Verifica llamadas a findById() y delete().
+     */
     @Test
     void testDelete() {
         // Given

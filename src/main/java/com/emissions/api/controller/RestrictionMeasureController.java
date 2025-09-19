@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador REST para gestionar medidas de restricción durante la pandemia.
+ * Expone endpoints CRUD y consultas por sector, intensidad y rangos de fecha.
+ */
 @RestController
 @RequestMapping("/api/restriction-measures")
 @Tag(name = "Medidas de Restricción", description = "API para gestionar medidas de restricción implementadas durante la pandemia")
@@ -21,11 +25,17 @@ public class RestrictionMeasureController {
 
     private final RestrictionMeasureService restrictionMeasureService;
 
+    /**
+     * Constructor con inyección del servicio de medidas de restricción.
+     */
     @Autowired
     public RestrictionMeasureController(RestrictionMeasureService restrictionMeasureService) {
         this.restrictionMeasureService = restrictionMeasureService;
     }
 
+    /**
+     * Obtener todas las medidas de restricción.
+     */
     @GetMapping
     @Operation(summary = "Obtener todas las medidas de restricción")
     public ResponseEntity<List<RestrictionMeasure>> getAllMeasures() {
@@ -33,6 +43,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measures);
     }
 
+    /**
+     * Obtener una medida de restricción por ID.
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Obtener medida de restricción por ID")
     public ResponseEntity<RestrictionMeasure> getMeasureById(@PathVariable Long id) {
@@ -40,6 +53,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measure);
     }
 
+    /**
+     * Crear una nueva medida de restricción.
+     */
     @PostMapping
     @Operation(summary = "Crear nueva medida de restricción")
     public ResponseEntity<RestrictionMeasure> createMeasure(@Valid @RequestBody RestrictionMeasure measure) {
@@ -47,6 +63,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMeasure);
     }
 
+    /**
+     * Actualizar una medida de restricción existente por ID.
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar medida de restricción existente")
     public ResponseEntity<RestrictionMeasure> updateMeasure(@PathVariable Long id,
@@ -55,6 +74,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(updatedMeasure);
     }
 
+    /**
+     * Eliminar una medida de restricción por ID.
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar medida de restricción")
     public ResponseEntity<Void> deleteMeasure(@PathVariable Long id) {
@@ -62,6 +84,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Obtener medidas de restricción filtradas por sector afectado.
+     */
     @GetMapping("/sector/{sector}")
     @Operation(summary = "Obtener medidas de restricción por sector afectado")
     public ResponseEntity<List<RestrictionMeasure>> getMeasuresBySector(@PathVariable String sector) {
@@ -69,6 +94,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measures);
     }
 
+    /**
+     * Obtener medidas de restricción filtradas por nivel de intensidad.
+     */
     @GetMapping("/intensity/{level}")
     @Operation(summary = "Obtener medidas de restricción por nivel de intensidad")
     public ResponseEntity<List<RestrictionMeasure>> getMeasuresByIntensity(@PathVariable Integer level) {
@@ -76,6 +104,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measures);
     }
 
+    /**
+     * Obtener medidas de restricción dentro de un rango de fechas.
+     */
     @GetMapping("/date-range")
     @Operation(summary = "Obtener medidas de restricción por rango de fechas")
     public ResponseEntity<List<RestrictionMeasure>> getMeasuresByDateRange(
@@ -85,6 +116,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measures);
     }
 
+    /**
+     * Obtener medidas de restricción filtradas por sector y rango de fechas.
+     */
     @GetMapping("/sector-date-range")
     @Operation(summary = "Obtener medidas de restricción por sector y rango de fechas")
     public ResponseEntity<List<RestrictionMeasure>> getMeasuresBySectorAndDateRange(
@@ -95,6 +129,9 @@ public class RestrictionMeasureController {
         return ResponseEntity.ok(measures);
     }
 
+    /**
+     * Obtener medidas de restricción con un nivel mínimo de intensidad.
+     */
     @GetMapping("/min-intensity/{minLevel}")
     @Operation(summary = "Obtener medidas de restricción con intensidad mínima")
     public ResponseEntity<List<RestrictionMeasure>> getMeasuresByMinIntensity(@PathVariable Integer minLevel) {

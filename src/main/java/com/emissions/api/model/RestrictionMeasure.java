@@ -4,10 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * Entidad JPA que representa una medida de restricción aplicada durante la pandemia.
+ * Contiene validaciones y mapeo de columnas para la tabla restriction_measures.
+ */
 @Entity
 @Table(name = "restriction_measures")
 public class RestrictionMeasure {
 
+    /**
+     * Campos de la entidad con validaciones y mapeo a columnas.
+     * - measureType/description/affectedSector: obligatorios (no vacíos)
+     * - startDate: obligatoria
+     * - intensityLevel: entero en [0, 5]
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +46,8 @@ public class RestrictionMeasure {
     @Column(name = "affected_sector", nullable = false)
     private String affectedSector;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con parámetros para inicializar la entidad. */
     public RestrictionMeasure() {}
 
     public RestrictionMeasure(String measureType, String description, LocalDate startDate,
@@ -49,7 +60,8 @@ public class RestrictionMeasure {
         this.affectedSector = affectedSector;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Accesores y mutadores estándar requeridos por JPA y para la capa de servicio. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

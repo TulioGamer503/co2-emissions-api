@@ -3,8 +3,18 @@ package com.emissions.api.dto;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
+/**
+ * DTO para transferir datos de medidas de restricción.
+ * Incluye validaciones para tipo, descripción, fechas, intensidad y sector afectado.
+ */
 public class RestrictionMeasureDTO {
 
+    /**
+     * Campos del DTO con validaciones de Bean Validation.
+     * - measureType/description/affectedSector: obligatorios (no vacíos)
+     * - startDate: obligatoria
+     * - intensityLevel: entero en [0, 5]
+     */
     private Long id;
 
     @NotBlank(message = "El tipo de medida es obligatorio")
@@ -25,7 +35,8 @@ public class RestrictionMeasureDTO {
     @NotBlank(message = "El sector afectado es obligatorio")
     private String affectedSector;
 
-    // Constructores
+    // --------------------------------- Constructores ---------------------------------
+    /** Constructores por defecto y con argumentos para facilitar mapeo/serialización. */
     public RestrictionMeasureDTO() {}
 
     public RestrictionMeasureDTO(Long id, String measureType, String description, LocalDate startDate,
@@ -39,7 +50,8 @@ public class RestrictionMeasureDTO {
         this.affectedSector = affectedSector;
     }
 
-    // Getters y Setters
+    // ------------------------------- Getters y Setters -------------------------------
+    /** Accesores y mutadores estándar para uso en controladores/servicios y validación. */
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
